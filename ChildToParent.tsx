@@ -1,29 +1,34 @@
+import { useState } from "react";
+
 export function ParentComponent() {
 
-	const [dataFromChild, setDataFromChild] = useState(null);
+	const [dataFromChild, setDataFromChild] = useState<string | null>(null);
 
-	const handleDataFromChild = (data) => {
+	const handleDataFromChild = (data: string) => {
 		setDataFromChild(data)
 	};
 
 	return (
 	<div>
 	<p>
-		Data from Child <b><dataFromChild}</b>
+		Data from Child <b>{dataFromChild}</b>
 	</p>
 	<span />
-	<ChildComponent sendDataToParent={handDataFromChild} />
+	<ChildComponent sendDataToParent={handleDataFromChild} />
 	</div>
 	)
 }
 
-function ChildComponet(props) {
+interface ChildProps {
+	sendDataToParent: (data: string) => void;
+}
+
+function ChildComponent(props: ChildProps) {
 	return (
 		<div>
 			<h3>Child</h3>
 			<input
-				placeholder="Child Input"
-				onChange{(e) => preps.sendDataToParent(e.traget.value)}
+				placeholder="Child Input" onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.sendDataToParent(e.target.value)}
 			/>
 		</div>
 	);
